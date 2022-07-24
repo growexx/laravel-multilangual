@@ -11,10 +11,7 @@ include(app_path() . '/../resources/lang/en/messages.php');
 
 class LangController extends Controller
 {
-    public function indexForLanguage()
-    {
-        return view('lang');
-    }
+    const INDEX = 'companies.index';
     public function change(Request $request)
     {
         session()->put('from_lang', session()->get('to_lang'));
@@ -56,12 +53,8 @@ class LangController extends Controller
         $company->email = $request->email;
         $company->address = $request->address;
         $company->save();
-        return redirect()->route('companies.index')
+        return redirect()->route($this::INDEX)
             ->with('success', GoogleTranslate::trans('Company has been created successfully.', session()->get('to_lang'),'en'));
-    }
-    public function show(Company $company)
-    {
-        return view('lang', compact('company'));
     }
     public function edit(Company $company)
     {
@@ -89,13 +82,13 @@ class LangController extends Controller
         $company->email = $request->email;
         $company->address = $request->address;
         $company->save();
-        return redirect()->route('companies.index')
+        return redirect()->route($this::INDEX)
             ->with('success', GoogleTranslate::trans('Company Has Been updated successfully', session()->get('to_lang'),'en'));
     }
     public function destroy(Company $company)
     {
         $company->delete();
-        return redirect()->route('companies.index')
+        return redirect()->route($this::INDEX)
             ->with('success', GoogleTranslate::trans('Company has been deleted successfully', session()->get('to_lang'),'en'));
     }
 }
