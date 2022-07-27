@@ -19,12 +19,6 @@ class ExampleTest extends TestCase
         $response = $this->get('companies');
         $response->assertStatus(200);
     }
-    public function test_check_in_local()
-    {
-        $this->app->setLocale(app()->getLocale('locale'));
-        $this->get('http://127.0.0.1:8000/change/lang')
-            ->assertStatus(302);
-    }
     public function test_ChangeLang()
     {
         $response = $this->get('http://127.0.0.1:8000/change/lang');
@@ -36,13 +30,13 @@ class ExampleTest extends TestCase
         $response = $this->get('http://127.0.0.1:8000/companies');
         $response->assertStatus(200);
     }
-    public function test_createTask()
+    public function test_createCompany()
     {
 
         $response = $this->get('http://127.0.0.1:8000/companies/create');
         $response->assertStatus(200);
     }
-    public function test_StoreTask()
+    public function test_StoreCompany()
     {
         $response = $this->call('POST', 'http://127.0.0.1:8000/companies', [
             'name' => 'growexx',
@@ -51,27 +45,27 @@ class ExampleTest extends TestCase
         ]);
         $response->assertStatus(500);
     }
-    public function test_deleteTask()
+    public function test_deleteCompany()
     {
-        $response = $this->call('DELETE', 'http://127.0.0.1:8000/companies/24', [
+        $response = $this->call('DELETE', 'http://127.0.0.1:8000/companies/27', [
             'name' => 'growexx',
             'email' => 'abc@gmail.com',
             'address' => 'abc,amd'
         ]);
         $response->assertStatus(500);
     }
-    public function test_updateTask()
+    public function test_updateCompany()
     {
-        $response = $this->call('PUT', 'http://127.0.0.1:8000/companies/17', [
+        $response = $this->call('PUT', 'http://127.0.0.1:8000/companies/30', [
             'name' => 'growexx',
             'email' => 'abc@gmail.com',
             'address' => 'abc,amd'
         ]);
-        $response->assertStatus(500);
+        $response->assertStatus(302);
     }
-    public function test_editTask()
+    public function test_editCompany()
     {
-        $response = $this->call('GET', 'http://127.0.0.1:8000/companies/17/edit', [
+        $response = $this->call('GET', 'http://127.0.0.1:8000/companies/30/edit', [
             'name' => 'growexx123',
             'email' => 'abc@gmail.com',
             'address' => 'abc,amd'

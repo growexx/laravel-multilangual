@@ -16,10 +16,12 @@ class SiteData
         } elseif($page == "LangEdit"){
             $data = $this->edit_page();
         }
+        $tr = new GoogleTranslate($response['to_lang']);
         foreach($data as $key=>$value){
-            $message_data[$key] = GoogleTranslate::trans($value, $response['to_lang'], $response['from_lang']);
+            $message_data[$key] = $tr->translate($value);
         }
         $response['data'] = $message_data;
+        // $response['data'] = $data;
         return $response;
     }
     public function index_page()

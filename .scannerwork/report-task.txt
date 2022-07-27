@@ -2,5 +2,5 @@ projectKey=laravel-multilangual
 serverUrl=https://quality.growexx.com
 serverVersion=8.9.6.50800
 dashboardUrl=https://quality.growexx.com/dashboard?id=laravel-multilangual
-ceTaskId=AYIwp3boN_s72o7nAymJ
-ceTaskUrl=https://quality.growexx.com/api/ce/task?id=AYIwp3boN_s72o7nAymJ
+ceTaskId=AYI6OVH6N_s72o7nAypA
+ceTaskUrl=https://quality.growexx.com/api/ce/task?id=AYI6OVH6N_s72o7nAypA

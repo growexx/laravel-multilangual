@@ -6,33 +6,32 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    {{-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
 </head>
 
 <body>
     <div class="container">
         <h1>{{ $data["title"] }}</h1>
         <div class="row">
-            <div class="col-md-2 col-md-offset-6 text-right">
+            <div class="col-lg-6 margin-tb">
+                <div class="pull-left mb-2">
+                    <a class="btn btn-success" href="{{ route('companies.create') }}">{{ $data["create"] }}</a>
+                </div>
+            </div>
+            <div class="col-md-2 text-right">
                 <strong>Select Language: </strong>
             </div>
             <div class="col-md-4">
                 <select class="form-control changeLang">
                     <option value="en" {{ session()->get('to_lang') == 'en' ? 'selected' : '' }}>English</option>
                     <option value="fr" {{ session()->get('to_lang') == 'fr' ? 'selected' : '' }}>French</option>
-                    <option value="sp" {{ session()->get('to_lang') == 'sp' ? 'selected' : '' }}>Spanish</option>
+                    <option value="es" {{ session()->get('to_lang') == 'es' ? 'selected' : '' }}>Spanish</option>
                     <option value="de" {{ session()->get('to_lang') == 'de' ? 'selected' : '' }}>German</option>
                     <option value="it" {{ session()->get('to_lang') == 'it' ? 'selected' : '' }}>Italian</option>
                     <option value="hi" {{ session()->get('to_lang') == 'hi' ? 'selected' : '' }}>हिन्दी</option>
                 </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12 margin-tb">
-                <div class="pull-left mb-2">
-                    <a class="btn btn-success" href="{{ route('companies.create') }}">{{ $data["create"] }}</a>
-                </div>
             </div>
         </div>
         @if ($message = Session::get('success'))
@@ -65,6 +64,7 @@
                 </tr>
             @endforeach
         </table>
+        {!! $companies_pagination->links('pagination') !!}
     </div>
 </body>
 

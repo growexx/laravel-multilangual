@@ -15,12 +15,6 @@ use App\Http\Controllers\LangController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/{id}/edit', [ LangController::class, 'edit' ]);
-// Route::resource('/', LangController::class );
 Route::get('change/lang', [ LangController::class, 'change' ])->name('changeLang');
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
