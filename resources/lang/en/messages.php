@@ -43,6 +43,7 @@ class SiteData
     public function create_page()
     {
         return [
+            'title' => 'Multi Language Website in Laravel',
             'add_button' => 'Add Company',
             'back_button' => 'Back',
             'submit_button' => 'Submit',
@@ -54,6 +55,8 @@ class SiteData
     }
     public function edit_page(){
         return [
+            'title' => 'Multi Language Website in Laravel',
+            'id' => 'Company ID',
             'edit_button' => 'Edit Company',
             'back_button' => 'Back',
             'submit_button' => 'Submit',

@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LangController;
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,8 +13,19 @@ use App\Http\Controllers\LangController;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+
 Route::get('change/lang', [ LangController::class, 'change' ])->name('changeLang');
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::resource('companies', LangController::class );
 });
+
+require __DIR__.'/auth.php';

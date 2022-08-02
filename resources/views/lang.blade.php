@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>How to Create Multi Language Website in Laravel</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
-</head>
-
-<body>
-    <div class="container">
-        <h1>{{ $data["title"] }}</h1>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ $data['title'] }}
+        </h2>
+    </x-slot>
+    <div class="container pt-3">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
         <div class="row">
             <div class="col-lg-6 margin-tb">
                 <div class="pull-left mb-2">
-                    <a class="btn btn-success" href="{{ route('companies.create') }}">{{ $data["create"] }}</a>
+                    <a class="btn btn-success" href="{{ route('companies.create') }}">{{ $data['create'] }}</a>
                 </div>
             </div>
             <div class="col-md-2 text-right">
@@ -33,46 +27,49 @@
                     <option value="hi" {{ session()->get('to_lang') == 'hi' ? 'selected' : '' }}>हिन्दी</option>
                 </select>
             </div>
-        </div>
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-        @endif
-        <table class="table table-bordered">
-            <tr>
-                <th>{{ $data["table_row_1"] }}</th>
-                <th>{{ $data["table_row_2"] }}</th>
-                <th>{{ $data["table_row_3"] }}</th>
-                <th>{{ $data["table_row_4"] }}</th>
-                <th width="280px">{{ $data["table_row_5"] }}</th>
-            </tr>
-            @foreach ($companies as $company)
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
+            <table class="table table-bordered">
                 <tr>
-                    <td>{{ $company["id"] }}</td>
-                    <td>{{ $company["name"] }}</td>
-                    <td>{{ $company["email"] }}</td>
-                    <td>{{ $company["address"] }}</td>
-                    <td>
-                        <form action="{{ route('companies.destroy', $company["id"]) }}" method="Post">
-                            <a class="btn btn-primary" href="{{ route('companies.edit', $company["id"]) }}">{{ $data["edit"] }}</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">{{ $data["delete"] }}</button>
-                        </form>
-                    </td>
+                    <th>{{ $data['table_row_1'] }}</th>
+                    <th>{{ $data['table_row_2'] }}</th>
+                    <th>{{ $data['table_row_3'] }}</th>
+                    <th>{{ $data['table_row_4'] }}</th>
+                    <th width="280px">{{ $data['table_row_5'] }}</th>
                 </tr>
-            @endforeach
-        </table>
-        {!! $companies_pagination->links('pagination') !!}
-    </div>
-</body>
+                @foreach ($companies as $company)
+                    <tr>
+                        <td>
+                            <a href="{{ route('companies.show', $company['id']) }}" title="View">
+                                <i class="fas fa-eye text-success fa-lg"></i>
 
-<script type="text/javascript">
-    var url = "{{ route('changeLang') }}";
-    $(".changeLang").change(function() {
-        window.location.href = url + "?lang=" + $(this).val();
-    });
-</script>
+                                {{ $company['id'] }}</a>
+                        </td>
+                        <td>{{ $company['name'] }}</td>
+                        <td>{{ $company['email'] }}</td>
+                        <td>{{ $company['address'] }}</td>
+                        <td>
+                            <form action="{{ route('companies.destroy', $company['id']) }}" method="Post">
+                                <a class="btn btn-primary"
+                                    href="{{ route('companies.edit', $company['id']) }}">{{ $data['edit'] }}</a>
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">{{ $data['delete'] }}</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+            {!! $companies_pagination->links('pagination') !!}
+        </div>
 
-</html>
+        <script type="text/javascript">
+            var url = "{{ route('changeLang') }}";
+            $(".changeLang").change(function() {
+                window.location.href = url + "?lang=" + $(this).val();
+            });
+        </script>
+</x-app-layout>

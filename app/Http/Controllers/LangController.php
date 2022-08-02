@@ -19,13 +19,22 @@ class LangController extends Controller
         session()->put('to_lang', $request->lang);
         return redirect()->back();
     }
+    public function show(Company $company)
+    {
+        $message = new SiteData();
+        $message_data = $message->getData('LangEdit');
+        $data['data'] = $message_data['data'];
+        $company = compact('company')['company'];
+        $data['company'] = $company;
+        return view('show',$data);
+    }
     public function index()
     {
         $message = new SiteData();
         $message_data = $message->getData('LangIndex');
         $data['data'] = $message_data['data'];
         $tr = new GoogleTranslate($message_data['to_lang']);
-        $companies = DB::table('companies')->select('id', 'name', 'email', 'address')->paginate(10);
+        $companies = DB::table('companies')->select('id', 'name', 'email', 'address')->paginate(7);
         foreach ($companies as $company) {
             $data['companies'][] = [
                 'id' => $tr->translate($company->id),
@@ -56,8 +65,9 @@ class LangController extends Controller
         $company->email = $request->email;
         $company->address = $request->address;
         $company->save();
+        $to_lang = (session()->get('to_lang')) ? session()->get('to_lang') : 'en';
         return redirect()->route($this::INDEX)
-            ->with('success', GoogleTranslate::trans('Company has been created successfully.', session()->get('to_lang'), 'en'));
+            ->with('success', GoogleTranslate::trans('Company has been created successfully.', $to_lang, 'en'));
     }
     public function edit(Company $company)
     {
