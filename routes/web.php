@@ -24,7 +24,7 @@ Route::get('/dashboard', function () {
 
 Route::get('change/lang', [ LangController::class, 'change' ])->name('changeLang');
 
-Route::group(['namespace' => 'App\Http\Controllers'], function () {
+Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::resource('companies', LangController::class );
 });
 

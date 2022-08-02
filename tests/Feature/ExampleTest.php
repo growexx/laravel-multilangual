@@ -2,23 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Http\Request;
-use App\Http\Middleware\LanguageManager;
+use App\Models\Company;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function test_the_application_returns_a_successful_response()
-    {
-        $response = $this->get('companies');
-        $response->assertStatus(200);
-    }
     public function test_ChangeLang()
     {
         $response = $this->get('http://127.0.0.1:8000/change/lang');
@@ -26,7 +14,12 @@ class ExampleTest extends TestCase
     }
     public function test_Index()
     {
-
+        $response = $this->withoutMiddleware();
+        $response = Company::create([
+            'name' => 'growexx',
+            'email' => 'abc@gmail.com',
+            'address' => 'abc,amd'
+        ]);
         $response = $this->get('http://127.0.0.1:8000/companies');
         $response->assertStatus(200);
     }
@@ -43,20 +36,20 @@ class ExampleTest extends TestCase
             'email' => 'abc@gmail.com',
             'address' => 'abc,amd'
         ]);
-        $response->assertStatus(500);
+        $response->assertStatus(302);
     }
-    public function test_deleteCompany()
+    public function test_ShowCompanies()
     {
-        $response = $this->call('DELETE', 'http://127.0.0.1:8000/companies/27', [
-            'name' => 'growexx',
-            'email' => 'abc@gmail.com',
-            'address' => 'abc,amd'
-        ]);
-        $response->assertStatus(500);
+        $company = Company::first();
+        $id = $company->id;
+        $response = $this->get('http://127.0.0.1:8000/companies/'.$id);
+        $response->assertStatus(200);
     }
     public function test_updateCompany()
     {
-        $response = $this->call('PUT', 'http://127.0.0.1:8000/companies/30', [
+        $company = Company::first();
+        $id = $company->id;
+        $response = $this->call('PUT', 'http://127.0.0.1:8000/companies/'.$id, [
             'name' => 'growexx',
             'email' => 'abc@gmail.com',
             'address' => 'abc,amd'
@@ -65,11 +58,28 @@ class ExampleTest extends TestCase
     }
     public function test_editCompany()
     {
-        $response = $this->call('GET', 'http://127.0.0.1:8000/companies/30/edit', [
+        $company = Company::first();
+        $id = $company->id;
+        $response = $this->call('GET', 'http://127.0.0.1:8000/companies/'.$id.'/edit', [
             'name' => 'growexx123',
             'email' => 'abc@gmail.com',
             'address' => 'abc,amd'
         ]);
         $response->assertStatus(200);
+    }
+    public function test_deleteCompany()
+    {
+        $response = Company::create([
+            'name' => 'growexx',
+            'email' => 'abc@gmail.com',
+            'address' => 'abc,amd'
+        ]);
+        $id = $response->id;
+        $response = $this->call('DELETE', 'http://127.0.0.1:8000/companies/'.$id, [
+            'name' => 'growexx',
+            'email' => 'abc@gmail.com',
+            'address' => 'abc,amd'
+        ]);
+        $response->assertStatus(302);
     }
 }

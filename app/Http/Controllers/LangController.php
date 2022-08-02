@@ -97,7 +97,8 @@ class LangController extends Controller
     public function destroy(Company $company)
     {
         $company->delete();
+        $to_lang = (session()->get('to_lang')) ? session()->get('to_lang') : 'en';
         return redirect()->route($this::INDEX)
-            ->with('success', GoogleTranslate::trans('Company has been deleted successfully', session()->get('to_lang'), 'en'));
+            ->with('success', GoogleTranslate::trans('Company has been deleted successfully', $to_lang, 'en'));
     }
 }
